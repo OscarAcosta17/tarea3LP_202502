@@ -5,6 +5,7 @@ import java.util.List;
 import Util.Dialogo;
 
 import objetos.Item;
+import objetos.ItemTipo;
 import entorno.Zona;
 import objetos.NaveExploradora;
 
@@ -51,14 +52,56 @@ public class Jugador {
         return tanqueOxigeno;
     }
 
+    public NaveExploradora getNave() {
+        return nave;
+    }
+
     public void verEstadoJugador() {
         Dialogo.aviso("=== Estado del Jugador ===");
         
-        Dialogo.aviso("Oxígeno: " + tanqueOxigeno.getOxigenoRestante() + "/" + tanqueOxigeno.getCapacidadMaxima());
-        Dialogo.aviso("Profundidad actual: " + profundidadActual);
-        Dialogo.aviso("Zona actual: " + (zonaActual != null ? zonaActual.nombre : "Ninguna"));
-        Dialogo.aviso("Planos obtenidos: " + tienePlanos);
-        Dialogo.aviso("Traje térmico: " + trajeTermico);
-        Dialogo.aviso("Mejora de tanque: " + mejoraTanque);
+        Dialogo.aviso("Zona actual: "+ zonaActual.nombre + " | Profundidad: " + profundidadActual + " m | O2: "+ tanqueOxigeno.getOxigenoRestante() + "/"+ tanqueOxigeno.getCapacidadMaxima());
     }
+
+    public void agregarItem(ItemTipo tipo, int cantidad) {
+        for (Item item : inventario) {
+            if (item.getTipo() == tipo) {
+                item.setCantidad(item.getCantidad() + cantidad);
+                return; // acumula en vez de duplicar
+            }
+        }
+        inventario.add(new Item(tipo, cantidad));
+    }
+
+    public void verInventario() {
+        if (inventario.isEmpty()) {
+            System.out.println("Inventario vacío.");
+            return;
+        }
+        System.out.println("=== Inventario ===");
+        for (Item item : inventario) {
+            System.out.println("- " + item);
+        }
+    }
+
+    public List<Item> getInventario() {
+        return inventario;
+    }
+
+    public void aplicarMejoraTanque() {
+        if (!mejoraTanque) {
+            mejoraTanque = true;
+
+            int capacidadBase = tanqueOxigeno.getCapacidadMaxima();
+            tanqueOxigeno.setCapacidadMaxima(capacidadBase * 2);  // +100%
+
+            Dialogo.aviso("¡Has mejorado tu tanque! Capacidad de O₂ duplicada y resistencia a presión activada.");
+        } else {
+            Dialogo.error("Tu tanque ya está mejorado.");
+        }
+    }
+
+    public boolean tieneMejoraTanque() {
+        return mejoraTanque;
+    }
+    
 }

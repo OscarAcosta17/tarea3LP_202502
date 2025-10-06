@@ -28,5 +28,8 @@ public enum ItemTipo {
 
     // Extras de NaveEstrellada
     CABLES,
-    PIEZAS_METAL
+    PIEZAS_METAL,
+
+    //objetos creados
+    MEJORA_TANQUE
 }

@@ -43,4 +43,9 @@ public class Oxigeno {
     public static int costoMover(double d, int deltaZ) {
         return (int) Math.ceil((3 + 3*d) * (Math.abs(deltaZ) / 50.0));
     }
+
+    public void setCapacidadMaxima(int nuevaCapacidad) {
+        capacidadMaxima = nuevaCapacidad;
+    }
+
 }

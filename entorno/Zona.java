@@ -14,11 +14,16 @@ public abstract class Zona {
     private int profundidadMax;
     private EnumSet<ItemTipo> recursos;
 
-    public Zona(String nombre, int profundidadMin, int profundidadMax, EnumSet<ItemTipo> recursos) {
+    protected int nmin;
+    protected int nmax;
+
+    public Zona(String nombre, int profundidadMin, int profundidadMax, EnumSet<ItemTipo> recursos, int nmin, int nmax) {
         this.nombre = nombre;
         this.profundidadMin = profundidadMin;
         this.profundidadMax = profundidadMax;
         this.recursos = recursos;
+        this.nmin = nmin;
+        this.nmax = nmax;
     }
 
     public int getProfundidadMin() {
@@ -36,4 +41,5 @@ public abstract class Zona {
     // Métodos a implementar en las subclases
     public abstract void entrar(Jugador jugador);
     public abstract void explorar(Jugador jugador, Scanner sc);
+    public abstract void moverse(Jugador jugador, Scanner sc);
 }
