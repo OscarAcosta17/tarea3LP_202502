@@ -3,6 +3,7 @@ package Util;
 * Clase utilitaria para mostrar mensajes en consola con diferentes estilos y colores.
 * Simula una escritura lenta con efectos de texto y formato ANSI.
 */
+
 public class Dialogo {
     /** Código ANSI para resetear el color. */
     public static final String RESET = "\u001B[0m";

@@ -103,5 +103,29 @@ public class Jugador {
     public boolean tieneMejoraTanque() {
         return mejoraTanque;
     }
-    
+
+    public void setMejoraTanque(boolean valor) { //test
+        this.mejoraTanque = valor;
+    }
+
+
+    public void setTrajeTermico(boolean valor) {
+        this.trajeTermico = valor;
+    }
+
+    public boolean tieneTrajeTermico() {
+        return trajeTermico;
+    }
+
+    public boolean tieneItem(ItemTipo tipo) {
+        return inventario.stream().anyMatch(item -> item.getTipo() == tipo);
+    }
+
+    public void setTienePlanos(boolean valor) {
+        this.tienePlanos = valor;
+    }
+
+    public boolean tienePlanos() {
+        return tienePlanos;
+    }
 }

@@ -1,7 +1,8 @@
 import player.Jugador;
 import Util.Dialogo;
 import entorno.ZonaArrecife;
-import entorno.ZonaProfunda;
+
+import objetos.ItemTipo;
 import objetos.NaveExploradora;
 import java.util.Scanner;
 
@@ -16,7 +17,27 @@ public class Main {
         NaveExploradora nave = new NaveExploradora();
         Jugador jugador = new Jugador(60, nave);
 
-        
+
+        /*// === TEST ===
+        boolean DEBUG = true;
+
+        if (DEBUG) {
+            Dialogo.sistema("=== MODO DEBUG ACTIVADO ===");
+
+            // Crear jugador avanzado
+            jugador.setMejoraTanque(true);
+            jugador.setTrajeTermico(true);
+            jugador.getTanqueOxigeno().setCapacidadMaxima(150);
+            jugador.agregarItem(ItemTipo.MODULO_PROFUNDIDAD, 1);
+            jugador.agregarItem(ItemTipo.PLATA, 20);
+            jugador.agregarItem(ItemTipo.CUARZO, 20);
+            jugador.agregarItem(ItemTipo.ACERO, 10);
+            jugador.agregarItem(ItemTipo.ORO, 10);
+            jugador.agregarItem(ItemTipo.SILICIO, 10);
+
+
+        }*/
+
         ZonaArrecife arrecife= new ZonaArrecife();
 
         arrecife.entrar(jugador);
@@ -30,21 +51,27 @@ public class Main {
             int opcion = sc.nextInt();
             sc.nextLine();
             switch (opcion) {
-                case 1:
-                    arrecife.moverse(jugador, sc);
+                case 1: //moverse en profundidad
+
+                    if (jugador.getZonaActual() != null) {
+                        jugador.getZonaActual().moverse(jugador, sc);
+                    } 
                     break;
-                case 2: //hay q arreglarlo (explorar)
+                case 2: //explorar
                     if (jugador.getZonaActual() != null) {
                         jugador.getZonaActual().explorar(jugador, sc);
                     } 
                     break;
                 case 3: // recursos
-                    if (jugador.getZonaActual() instanceof ZonaArrecife) {
-                        ((ZonaArrecife) jugador.getZonaActual()).recolectarRecursos(jugador, sc);
-                    } else if (jugador.getZonaActual() instanceof ZonaProfunda){
-                        ((ZonaProfunda) jugador.getZonaActual()).recolectarRecursos(jugador, sc);
-                    } else {
-                        Dialogo.error("Solo puedes recolectar recursos en el Arrecife por ahora.");
+                    if (jugador.getZonaActual() != null) {
+                        // Recolectar solo si la zona lo permite
+                        try {
+                            jugador.getZonaActual().getClass().getMethod("recolectarRecursos", Jugador.class, Scanner.class).invoke(jugador.getZonaActual(), jugador, sc);
+                        } catch (NoSuchMethodException e) {
+                            Dialogo.error("Esta zona no tiene recursos para recolectar.");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                     break;
                 case 4: // volver nave
