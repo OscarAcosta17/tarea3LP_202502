@@ -31,5 +31,6 @@ public enum ItemTipo {
     PIEZAS_METAL,
 
     //objetos creados
-    MEJORA_TANQUE
+    MEJORA_TANQUE,
+    ROBOT_EXCAVADOR
 }

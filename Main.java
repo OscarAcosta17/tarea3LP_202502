@@ -1,8 +1,8 @@
 import player.Jugador;
 import Util.Dialogo;
+import Util.Entradas;
 import entorno.ZonaArrecife;
-
-import objetos.ItemTipo;
+// import objetos.ItemTipo;
 import objetos.NaveExploradora;
 import java.util.Scanner;
 
@@ -17,16 +17,16 @@ public class Main {
         NaveExploradora nave = new NaveExploradora();
         Jugador jugador = new Jugador(60, nave);
 
-
-        /*// === TEST ===
+        /* 
+        // === Test de las cositas ===
         boolean DEBUG = true;
 
         if (DEBUG) {
-            Dialogo.sistema("=== MODO DEBUG ACTIVADO ===");
+            Dialogo.aviso("=== modo test activado :D ===");
 
-            // Crear jugador avanzado
             jugador.setMejoraTanque(true);
             jugador.setTrajeTermico(true);
+            jugador.agregarItem(ItemTipo.ROBOT_EXCAVADOR, 1);
             jugador.getTanqueOxigeno().setCapacidadMaxima(150);
             jugador.agregarItem(ItemTipo.MODULO_PROFUNDIDAD, 1);
             jugador.agregarItem(ItemTipo.PLATA, 20);
@@ -48,8 +48,8 @@ public class Main {
             Dialogo.narrar("\nQue quieres hacer?");
             Dialogo.sistema("1.Subir o descender en profundidad \n2.Explorar \n3.Recoger recursos \n4.Volver a la nave\n5.Ver inventario\n6. Salir del juego");
 
-            int opcion = sc.nextInt();
-            sc.nextLine();
+            int opcion = Entradas.leerEnteroEnRango(sc, "Selecciona una opción:", 1, 6);
+
             switch (opcion) {
                 case 1: //moverse en profundidad
 

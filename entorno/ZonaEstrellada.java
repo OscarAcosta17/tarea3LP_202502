@@ -11,24 +11,43 @@ import java.util.Scanner;
 public class ZonaEstrellada extends Zona {
     private boolean moduloEncontrado;
     private boolean exploradoSinTraje;
-
+    /* (Constructor de ZonaEstrellada)
+    * Inicializa la zona "Nave Estrellada" con su conjunto de recursos y parámetros de exploración.
+    * @return void
+    */
     public ZonaEstrellada() {
         super("Nave Estrellada", 0, 0, EnumSet.of(ItemTipo.CABLES, ItemTipo.PIEZAS_METAL),0, 4);
         this.moduloEncontrado = false;
         this.exploradoSinTraje= false;
     }
-
+    /* (entrar)
+    * Asigna la zona estrellada como la zona actual del jugador y muestra un mensaje narrativo.
+    * @param jugador: Jugador que ingresa a la zona.
+    * @return void
+    */
     @Override
     public void entrar(Jugador jugador) {
         jugador.setZonaActual(this);
         Dialogo.narrar("Has ingresado a la " + nombre + ". Entre restos metálicos y humo, observas la estructura dañada de una antigua nave.");
     }
-
+    /* (moverse)
+    * Indica que el jugador no puede desplazarse libremente dentro de la nave estrellada.
+    * @param jugador: Jugador que intenta moverse.
+    * @param sc: Scanner utilizado para la entrada (no se usa en este contexto).
+    * @return void
+    */
     @Override
     public void moverse(Jugador jugador, Scanner sc) {
         Dialogo.error("No puedes moverte libremente aquí, estás dentro de la nave estrellada.");
     }
-
+    /* (explorar)
+    * Permite al jugador explorar los restos de la nave estrellada.
+    * Si no posee traje térmico, puede explorar una sola vez antes de perder el conocimiento.
+    * Puede encontrar el MÓDULO DE PROFUNDIDAD con probabilidad o recolectar materiales secundarios si tiene traje térmico.
+    * @param jugador: Jugador que realiza la exploración.
+    * @param sc: Scanner utilizado para interacción durante el evento.
+    * @return void
+    */
     @Override
     public void explorar(Jugador jugador, Scanner sc) {
         boolean tieneTraje = jugador.tieneTrajeTermico();
@@ -36,8 +55,11 @@ public class ZonaEstrellada extends Zona {
 
         if (!tieneTraje && exploradoSinTraje) {
             Dialogo.error("El calor es insoportable... No puedes volver a explorar sin un traje térmico.");
-            Dialogo.error("HAS MUERTO.............");
+            Dialogo.narrar("Has perdido el conocimiento y reapareces en la nave exploradora.");
 
+            jugador.perderInventario();
+            jugador.getTanqueOxigeno().recargarCompleto();
+            jugador.getNave().abrirMenuNave(jugador, sc);
             System.exit(0);
         }
 
@@ -66,7 +88,10 @@ public class ZonaEstrellada extends Zona {
             Dialogo.error("El calor te obligó a retirarte antes de encontrar algo valioso.");
         }
     }
-
+    /* (isModuloEncontrado)
+    * Indica si el módulo de profundidad ya fue hallado en la nave estrellada.
+    * @return boolean: true si se encontró el módulo, false en caso contrario.
+    */
     public boolean isModuloEncontrado() {
         return moduloEncontrado;
     }
